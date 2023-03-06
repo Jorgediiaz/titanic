@@ -35,9 +35,11 @@ function principal(){
      grafico_clases();
 
       // Realiza un gráfico circular de hombres y mujeres
+      grafico_hombres_mujeres();
      // Realiza un gráfico circular con los supervivientes de hombres y mujeres 
+    grafico_supervivientes_hombres_mujeres();
       // Realiza un gráfico en barras de hombres y mujeres supervivientes por cada clase
-
+      grafico_clases_supervivientes_hombres_mujeres();
     /*  ########################
         #  Muestra por consola #
         ########################
@@ -125,7 +127,77 @@ function principal(){
     });
   }
 
+  function grafico_hombres_mujeres(){
 
+    const canvas = document.getElementById('chartHombresMujeres');
+    new Chart(canvas,
+   
+    {
+      type: 'pie',
+      data: {
+        labels: ["Hombres", "Mujeres"],
+        datasets: [
+          {
+            label: 'Hombres y Mujeres',
+            data:[ pasajeros_titanic.filter(p=>p.sex =="male").length, pasajeros_titanic.filter(p=>p.sex =="female").length]
+          }
+        ]
+      }
+    });
+ 
+ }
+
+ function grafico_supervivientes_hombres_mujeres(){
+
+  const canvas = document.getElementById('chartsupervivienteshombresmujeres');
+  new Chart(canvas,
+ 
+  {
+    type: 'pie',
+    data: {
+      labels: ["Supervivientes hombres", "Supervivientes mujeres"],
+      datasets: [
+        {
+          label: 'Supervivientes hombres y Supervivientes mujeres',
+          data:[ pasajeros_titanic.filter(p=>p.sex =="male" & p.survived =="1").length, pasajeros_titanic.filter(p=>p.sex =="female" & p.survived =="1").length]
+        }
+      ]
+    }
+  });
+
+}
+
+function grafico_clases_supervivientes_hombres_mujeres(){
+  const canvas = document.getElementById('chartclasessupervivienteshombresmujeres');
+    new Chart(canvas,
+   
+    {
+      type: 'bar',
+      data: {
+        labels: ["Clase 1", "Clase 2", "Clase 3"],
+        datasets: [
+          {
+            backgroundColor: ["red","green", "blue"],
+            label: 'Supervivientes Hombre',
+            data:[ 
+              pasajeros_titanic.filter(p=>p.pclass=="1" && p.survived =="1" && p.sex=="male").length,
+              pasajeros_titanic.filter(p=>p.pclass=="2" && p.survived =="1" && p.sex=="male").length,
+              pasajeros_titanic.filter(p=>p.pclass=="3" && p.survived =="1" && p.sex=="male").length,
+            ]
+          },
+          {
+            backgroundColor: ["#00000","#01010", "#01020"],
+            label: 'Muertos',
+            data:[ 
+              pasajeros_titanic.filter(p=>p.pclass=="1" && p.survived =="0" && p.sex=="female").length,
+              pasajeros_titanic.filter(p=>p.pclass=="2" && p.survived =="0" && p.sex=="female").length,
+              pasajeros_titanic.filter(p=>p.pclass=="3" && p.survived =="0" && p.sex=="female").length,
+            ]
+          },
+        ],
+      }
+    });
+  }
 
 
 /** Función que devuelve los barcos */
